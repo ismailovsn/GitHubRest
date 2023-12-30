@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @State private var user: GitHubUser?
+    
     var body: some View {
         VStack(spacing: 20) {
             Circle()
@@ -24,6 +27,19 @@ struct ContentView: View {
             Spacer()
         }
         .padding()
+        .task {
+            do {
+                user = try await getUser()
+            } catch GHError.invalidURL {
+                print("invalid URL")
+            } catch GHError.invalidResponse {
+                print("invalid response")
+            } catch GHError.invalidData {
+                print("invalid data")
+            } catch {
+                print("unexpected error")
+            }
+        }
     }
     
     func getUser() async throws -> GitHubUser {
