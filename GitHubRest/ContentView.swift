@@ -13,15 +13,22 @@ struct ContentView: View {
     
     var body: some View {
         VStack(spacing: 20) {
-            Circle()
-                .foregroundColor(.gray)
-                .frame(width: 120, height: 120)
+            AsyncImage(url: URL(string: user?.avatarUrl ?? ""), content: { image in
+                image
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .clipShape(Circle())
+            }) {
+                Circle()
+                    .foregroundColor(.gray)
+            }
+            .frame(width: 120, height: 120)
             
-            Text("Username")
+            Text(user?.login ?? "Login placeholder")
                 .bold()
                 .font(.title3)
             
-            Text("This is where GitHub bio will go. Let's make it long so it spans to two lines.")
+            Text(user?.bio ?? "Login placeholder")
                 .padding()
             
             Spacer()
